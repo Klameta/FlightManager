@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 
-namespace Data
+namespace Data.Models
 {
     public class User : IdentityUser<string>
     {

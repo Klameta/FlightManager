@@ -11,6 +11,19 @@ namespace Data
 {
     public class FlightManagerDbContext : IdentityDbContext<User, IdentityRole, string>
     {
+        public DbSet<Flight> Flights { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<Flight>()
+                .HasMany(f => f.Reservations)
+                .WithOne(r => r.Flight)
+                .OnDelete(DeleteBehavior.Cascade);
+
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
