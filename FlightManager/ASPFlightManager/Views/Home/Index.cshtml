@@ -1,6 +1,10 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@using Microsoft.AspNetCore.Identity;
+@using Data.Models;
+@inject SignInManager<User> SignInManager 
+@inject UserManager<User> UserManager
 
 @if(this.User.IsInRole("Admin")){
     <h1>From the moment i understood the weakness of my flesh it disgusted me</h1>
@@ -8,5 +12,6 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
+    @*add a place to make reservations*@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
