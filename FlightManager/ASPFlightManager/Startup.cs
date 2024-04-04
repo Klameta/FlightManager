@@ -33,7 +33,7 @@ namespace ASPFlightManager
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<User>(options => 
+            services.AddIdentity<User, IdentityRole>(options => 
             { 
                 options.SignIn.RequireConfirmedAccount = true;
 
@@ -47,10 +47,11 @@ namespace ASPFlightManager
             })
                 .AddEntityFrameworkStores<FlightManagerDbContext>();
             services.AddControllersWithViews();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -71,6 +72,8 @@ namespace ASPFlightManager
             app.UseAuthentication();
             app.UseAuthorization();
 
+            Seed(serviceProvider).Wait();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -78,6 +81,47 @@ namespace ASPFlightManager
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+        }
+
+        private async System.Threading.Tasks.Task Seed(IServiceProvider serviceProvider)
+        {
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<User>>();
+            string[] roleNames = { "Admin", "Employee" };
+            IdentityResult roleResult;
+
+            foreach (var roleName in roleNames)
+            {
+                var roleCheck = await RoleManager.RoleExistsAsync(roleName);
+                if (!roleCheck)
+                {
+                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+
+            // Add admin user
+            var user = new User
+            {
+                Id = Guid.NewGuid().ToString(),
+                UserName = "admin@dev.local",
+                NormalizedUserName = "admin@dev.local",
+                Email = "admin@dev.local",
+                NormalizedEmail = "admin@dev.local",
+                EmailConfirmed = true,
+                LockoutEnabled = false,
+            };
+
+            string userPWD = "password";
+            var _user = await UserManager.FindByNameAsync(user.UserName);
+            if (_user == null)
+            {
+                IdentityResult checkUser = await UserManager.CreateAsync(user, userPWD);
+
+                if (checkUser.Succeeded)
+                {
+                    await UserManager.AddToRoleAsync(user, "Admin");
+                }
+            }
         }
     }
 }
