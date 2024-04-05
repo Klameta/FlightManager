@@ -7,67 +7,76 @@
 <h1>Create</h1>
 
 <h4>Flight</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="From" class="control-label"></label>
-                <input asp-for="From" class="form-control" />
-                <span asp-validation-for="From" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="To" class="control-label"></label>
-                <input asp-for="To" class="form-control" />
-                <span asp-validation-for="To" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DepartureDate" class="control-label"></label>
-                <input asp-for="DepartureDate" class="form-control" />
-                <span asp-validation-for="DepartureDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ArrivalDate" class="control-label"></label>
-                <input asp-for="ArrivalDate" class="form-control" />
-                <span asp-validation-for="ArrivalDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <input asp-for="Type" class="form-control" />
-                <span asp-validation-for="Type" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PlaneNumber" class="control-label"></label>
-                <input asp-for="PlaneNumber" class="form-control" />
-                <span asp-validation-for="PlaneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PilotName" class="control-label"></label>
-                <input asp-for="PilotName" class="form-control" />
-                <span asp-validation-for="PilotName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Capacity" class="control-label"></label>
-                <input asp-for="Capacity" class="form-control" />
-                <span asp-validation-for="Capacity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CapacityVIP" class="control-label"></label>
-                <input asp-for="CapacityVIP" class="form-control" />
-                <span asp-validation-for="CapacityVIP" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+
+@if (!this.User.IsInRole("Admin"))
+{
+    <h1>You're not supposed to be here! :)</h1>
+    throw new UnauthorizedAccessException("You're not supposed to be here! :)");
+}
+else
+{
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="From" class="control-label"></label>
+                    <input asp-for="From" class="form-control" />
+                    <span asp-validation-for="From" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="To" class="control-label"></label>
+                    <input asp-for="To" class="form-control" />
+                    <span asp-validation-for="To" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DepartureDate" class="control-label"></label>
+                    <input asp-for="DepartureDate" class="form-control" />
+                    <span asp-validation-for="DepartureDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ArrivalDate" class="control-label"></label>
+                    <input asp-for="ArrivalDate" class="form-control" />
+                    <span asp-validation-for="ArrivalDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Type" class="control-label"></label>
+                    <input asp-for="Type" class="form-control" />
+                    <span asp-validation-for="Type" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PlaneNumber" class="control-label"></label>
+                    <input asp-for="PlaneNumber" class="form-control" />
+                    <span asp-validation-for="PlaneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PilotName" class="control-label"></label>
+                    <input asp-for="PilotName" class="form-control" />
+                    <span asp-validation-for="PilotName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Capacity" class="control-label"></label>
+                    <input asp-for="Capacity" class="form-control" />
+                    <span asp-validation-for="Capacity" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CapacityVIP" class="control-label"></label>
+                    <input asp-for="CapacityVIP" class="form-control" />
+                    <span asp-validation-for="CapacityVIP" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
 }

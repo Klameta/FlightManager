@@ -21,7 +21,7 @@
     }
     else
     {
-        if (User.IsInRole("Admin"))
+        if (this.User.IsInRole("Admin"))
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
