@@ -1,5 +1,4 @@
-﻿@model Data.Models.Reservation
-
+﻿@model ReservationViewModel
 @{
     ViewData["Title"] = "Create";
 }
@@ -12,6 +11,13 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <select asp-for="Reservation.FlightId" class="form-control">
+                <option value="">Select a flight</option>
+                @foreach (var flight in Model.Flights)
+                {
+                    <option value="@flight.Id">@($"{flight.Id}")</option>
+                }
+            </select>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />

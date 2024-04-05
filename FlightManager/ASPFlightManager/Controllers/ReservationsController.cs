@@ -46,7 +46,13 @@ namespace ASPFlightManager.Controllers
         // GET: Reservations/Create
         public IActionResult Create()
         {
-            return View();
+            var flights = _context.Flights;
+            var model = new ReservationViewModel
+            {
+                Flights = flights,
+                Reservation = new Reservation() // Create an empty reservation
+            };
+            return View(model);
         }
 
         // POST: Reservations/Create
