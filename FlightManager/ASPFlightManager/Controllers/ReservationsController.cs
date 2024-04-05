@@ -50,7 +50,7 @@ namespace ASPFlightManager.Controllers
             var model = new ReservationViewModel
             {
                 Flights = flights,
-                Reservation = new Reservation() // Create an empty reservation
+                Reservation = new Reservation()
             };
             return View(model);
         }
@@ -60,7 +60,8 @@ namespace ASPFlightManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,SecondName,LastName,Email,SSN,PhoneNumber,Nationality,TicketType")] Reservation reservation)
+        public async Task<IActionResult> Create(
+            [Bind("Id,FirstName,SecondName,LastName,Email,SSN,PhoneNumber,Nationality,TicketType")] Reservation reservation)
         {
             if (ModelState.IsValid)
             {

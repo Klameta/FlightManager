@@ -24,6 +24,11 @@ namespace Data
                 .WithOne(r => r.Flight)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.Entity<Reservation>()
+                .HasOne(r => r.Flight)
+                .WithMany(re => re.Reservations);
+                
+
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

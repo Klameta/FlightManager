@@ -86,8 +86,7 @@ namespace ASPFlightManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, 
-            [Bind("Id,From,To,DepartureDate,ArrivalDate,Type,PlaneNumber,PilotName,Capacity,CapacityVIP")] Flight flight)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,From,To,DepartureDate,ArrivalDate,Type,PlaneNumber,PilotName,Capacity,CapacityVIP")] Flight flight)
         {
             if (id != flight.Id)
             {
