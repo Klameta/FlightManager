@@ -1,5 +1,4 @@
-﻿using Data.Extentions;
-using Data.Models;
+﻿using Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-    public class FlightManagerDbContext : IdentityDbContext<User>
+    public class FlightManagerDbContext : IdentityDbContext<User, IdentityRole, string>
     {
         public virtual DbSet<Flight> Flights { get; set; }
         public virtual DbSet<Reservation> Reservations { get; set; }
@@ -24,8 +23,6 @@ namespace Data
                 .HasMany(f => f.Reservations)
                 .WithOne(r => r.Flight)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            builder.Seed();
 
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
