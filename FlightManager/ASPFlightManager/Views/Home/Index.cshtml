@@ -1,6 +1,18 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@using Microsoft.AspNetCore.Identity;
+@using Data.Models;
+@inject SignInManager<User> SignInManager 
+@inject UserManager<User> UserManager
+
+@if(SignInManager.IsSignedIn(User)) { 
+<h1>HIIIIIIIIIIIIIII</h1>
+}
+@if (this.User.IsInRole("Admin"))
+{
+<h1>hiiiiiiiiiiiiiiiiiii</h1>
+}
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
