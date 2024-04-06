@@ -86,8 +86,13 @@ namespace ASPFlightManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, User user)
+
+        //(TRQBWA DA SE OPRAVI)!!!!!!!!!!
+
+        public async Task<IActionResult> Edit(string id, 
+            [Bind("Id,FirstName,LastName,SSN,Email,Address")] User user)
         {
+
             if (id != user.Id)
             {
                 return NotFound();
@@ -97,7 +102,13 @@ namespace ASPFlightManager.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    var currentUser = await _context.Users.FindAsync(id);
+                    currentUser.FirstName = user.FirstName;
+                    currentUser.LastName = user.LastName;
+                    currentUser.SSN = user.SSN;
+                    currentUser.Email = user.Email;
+                    currentUser.Address = user.Address;
+                    _context.Update(currentUser);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
