@@ -1,7 +1,10 @@
-﻿using Data;
+﻿using ASPFlightManager.Areas.Identity.Pages.Account;
+using Data;
 using Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +15,23 @@ namespace ASPFlightManager.Controllers
     public class UsersController : Controller
     {
         private readonly FlightManagerDbContext _context;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly ILogger<UsersController> _logger;
 
-        public UsersController(FlightManagerDbContext context)
+
+        public UsersController(
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            ILogger<UsersController> logger,
+            FlightManagerDbContext flightManagerDbContext)
         {
-            _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _logger = logger;
+            _context = flightManagerDbContext;
         }
+
 
         // GET: Users
         public async Task<IActionResult> Index()
@@ -53,14 +68,21 @@ namespace ASPFlightManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,SecondName,LastName,Email,SSN,PhoneNumber,Nationality,TicketType")] User user)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,SecondName,LastName,Email,SSN,PhoneNumber,Nationality,TicketType,PasswordHash")] User user)
         {
-            
+            User newUser = new User
+            {
+                UserName = user.Email,
+                Email = user.Email,
+                LockoutEnabled = false,
+                EmailConfirmed = true
+            };
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                var result = await _userManager.CreateAsync(newUser, user.PasswordHash);
+                /*_context.Add(user);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));*/
             }
             return View(user);
         }
@@ -89,7 +111,7 @@ namespace ASPFlightManager.Controllers
 
         //(TRQBWA DA SE OPRAVI)!!!!!!!!!!
 
-        public async Task<IActionResult> Edit(string id, 
+        public async Task<IActionResult> Edit(string id,
             [Bind("Id,FirstName,LastName,SSN,Email,Address")] User user)
         {
 
