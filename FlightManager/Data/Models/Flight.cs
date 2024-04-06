@@ -20,5 +20,9 @@ namespace Data.Models
         public string CapacityVIP { get; set; }
 
         public ICollection<Reservation> Reservations { get; set; }
+        public Flight()
+        {
+            Reservations = new List<Reservation>();
+        }
     }
 }
