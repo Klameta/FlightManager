@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,6 @@ namespace Data.Models
         public string PhoneNumber { get; set; }
         public string Nationality { get; set; }
         public string TicketType { get; set; }
-
         public virtual Flight Flight { get; set; }
 
     }
