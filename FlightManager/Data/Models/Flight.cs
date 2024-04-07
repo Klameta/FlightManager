@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.Models
 {
@@ -45,11 +46,15 @@ namespace Data.Models
         [RegularExpression(@"^\d+$", ErrorMessage = "Capacity for VIP passengers must be a numeric value.")]
         public string CapacityVIP { get; set; }
 
+        [NotMapped]
+        public double FlightDuration { get; set; }
+
         public ICollection<Reservation> Reservations { get; set; }
 
         public Flight()
         {
             Reservations = new List<Reservation>();
+            CalulateDuration();
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -58,6 +63,11 @@ namespace Data.Models
             {
                 yield return new ValidationResult("Arrival date cannot be before departure date.", new[] { nameof(ArrivalDate) });
             }
+        }
+
+        internal void CalulateDuration()
+        {
+            FlightDuration = (ArrivalDate - DepartureDate).TotalHours;
         }
     }
 }
