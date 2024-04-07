@@ -61,7 +61,7 @@ namespace ASPFlightManager.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-            [Bind("Id,FirstName,SecondName,LastName,Email,SSN,PhoneNumber,Nationality,TicketType")] Reservation reservation)
+            [Bind("Id,FirstName,SecondName,LastName,Email,SSN,PhoneNumber,Nationality,TicketType,Flight")] Reservation reservation)
         {
             if (ModelState.IsValid)
             {
