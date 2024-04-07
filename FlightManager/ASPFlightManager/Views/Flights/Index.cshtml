@@ -7,11 +7,17 @@
 <h1>Index</h1>
 
 @if (this.User.IsInRole("Admin"))
- {
+{
     <p>
         <a asp-action="Create">Create New</a>
     </p>
- }
+}
+
+<div style=" display: flex; justify-content: center; align-items: center;">
+    
+    <img src="https://media2.giphy.com/media/l2Sq87bt4GOdAnlGo/giphy.gif?cid=6c09b95212kqjuoh07dtbffjxgseqpjiekxjyctmwgul3r21&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g" alt="Alternate Text" />
+</div>
+
 
 <table class="table">
     <thead>
@@ -80,7 +86,7 @@
                 <td>
                     @if (this.User.IsInRole("Admin"))
                     {
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     }
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a>
