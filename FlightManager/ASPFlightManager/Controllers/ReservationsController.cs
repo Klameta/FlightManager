@@ -78,7 +78,7 @@ namespace ASPFlightManager.Controllers
                     _context.Add(viewModel.Reservation);
                     await _context.SaveChangesAsync();
 
-                    SendEmail(viewModel.Reservation.Email);
+                    SendEmail(viewModel.Reservation);
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -176,36 +176,21 @@ namespace ASPFlightManager.Controllers
         {
             return _context.Reservations.Any(e => e.Id == id);
         }
-        public void SendEmail(string email)
+        public void SendEmail(Reservation reservation)
         {
-            string senderEmail = "SRRAirLine@gmail.com";
-            string senderPassword = "SRRAIRLINESEcretPassword";
+            SmtpClient client = new SmtpClient("smtp.mailtrap.io");
+            client.UseDefaultCredentials = false;
+            client.Credentials = new NetworkCredential("62fc31ef4c5f5e", "45944e2ba3e7f3");
 
-            // Recipient's email address
-            string recipientEmail = email;
+            MailMessage mailMessage = new MailMessage();
+            mailMessage.From = new MailAddress("flightmanager@dev.local");
+            mailMessage.To.Add(reservation.Email);
+            mailMessage.IsBodyHtml = false;
+            mailMessage.Body = "Your reservation for flight number " + reservation.Flight.PlaneNumber + " was successful." + "\n";
+            mailMessage.Subject = "Reservation confirmation.";
+            client.Send(mailMessage);
 
-            // Create a MailMessage object
-            MailMessage mail = new MailMessage(senderEmail, recipientEmail);
-            mail.Subject = "Test Email";
-            mail.Body = "This is a test email sent from C#.";
-
-            // Create a SmtpClient object
-            SmtpClient smtpClient = new SmtpClient("smtp.example.com");
-            smtpClient.Port = 587; // Set the SMTP port (usually 587 for TLS/STARTTLS)
-            smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
-            smtpClient.EnableSsl = true; // Enable SSL/TLS encryption
-
-            try
-            {
-                // Send the email
-                smtpClient.Send(mail);
-                Console.WriteLine("Email sent successfully.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Failed to send email: " + ex.Message);
-            }
         }
-    }
+        }
 
 }
