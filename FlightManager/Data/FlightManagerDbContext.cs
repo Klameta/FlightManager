@@ -34,7 +34,7 @@ namespace Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=FlightManager; Integrated Security = true");
+                optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB02;Database=FlightManager; Integrated Security = true");
             }
         }
 
