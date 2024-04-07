@@ -83,17 +83,20 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.CapacityVIP)
                 </td>
-                <td>
-                    @if (this.User.IsInRole("Admin"))
-                    {
-                        <li style="list-style-type:none">
-                            <a asp-action="Edit" asp-route-id="@item.Id" 
+                <td style="
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 0.5em;
+                    justify-content: space-between
+                    ">
+                    @if (this.User.IsInRole("Admin")) { <li style="list-style-type:none">
+                            <a asp-action="Edit" asp-route-id="@item.Id"
                                style="list-style-type: none; border: solid; border-color: black; border-width: 1px; border-radius: 4px; padding: 5px; color: black">Edit</a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" 
+                            <a asp-action="Delete" asp-route-id="@item.Id"
                                style="list-style-type: none; border: solid; border-color: black; border-width: 1px; border-radius: 4px; padding: 5px; color: black">Delete</a>
                         </li>
                     }
-                    <a asp-action="Details" asp-route-id="@item.Id" 
+                    <a asp-action="Details" asp-route-id="@item.Id"
                        style="list-style-type:none; border:solid; border-color: black; border-width:1px;border-radius:4px;padding:5px; color:black">Details</a>
 
                 </td>

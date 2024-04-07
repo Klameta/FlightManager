@@ -34,6 +34,7 @@ namespace ASPFlightManager.Controllers
             }
 
             var flight = await _context.Flights
+                .Include(f => f.Reservations)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (flight == null)
             {
