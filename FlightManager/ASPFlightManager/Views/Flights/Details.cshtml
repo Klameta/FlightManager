@@ -29,10 +29,11 @@
             @Html.DisplayFor(model => model.DepartureDate)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ArrivalDate)
+            Duration
+            @*@Html.DisplayNameFor(model => model.ArrivalDate)*@
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ArrivalDate)
+            @Html.DisplayFor(model => model.ArrivalDate - model.DepartureDate)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Type)
