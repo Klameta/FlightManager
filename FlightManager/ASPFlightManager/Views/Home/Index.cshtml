@@ -7,11 +7,16 @@
 @inject UserManager<User> UserManager
 
 @if(this.User.IsInRole("Admin")){
-    <h1>From the moment i understood the weakness of my flesh it disgusted me</h1>
+    <h2>From the moment i understood the weakness of my flesh it disgusted me</h2>
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     @*add a place to make reservations*@
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+        <li class="nav-item"style="list-style-type:none;">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="Create">Make a Reservation!</a>
+        </li>
+    </button>
 </div>
