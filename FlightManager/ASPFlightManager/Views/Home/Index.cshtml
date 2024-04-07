@@ -3,19 +3,26 @@
 }
 @using Microsoft.AspNetCore.Identity;
 @using Data.Models;
-@inject SignInManager<User> SignInManager 
+@inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
-@if(this.User.IsInRole("Admin")){
-    <h2>From the moment i understood the weakness of my flesh it disgusted me</h2>
+@if (this.User.IsInRole("Admin"))
+{
+    <div class="text-center">
+        <h3>Emloyee quote of the day :</h3>
+    </div>
+    <h2>From the moment i understood the weakness of my flesh it disgusted me...</h2>
+
 }
 
+<br></br>
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4" style="font-size:4em; font-family:Georgia, 'Times New Roman', Times, serif">Welcome to SRR Airlines!</h1>
     @*add a place to make reservations*@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
-        <li class="nav-item"style="list-style-type:none;">
+        <li class="nav-item" style="list-style-type:none;">
             <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="Create">Make a Reservation!</a>
         </li>
     </button>
