@@ -65,8 +65,8 @@ namespace ASPFlightManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ReservationViewModel viewModel)
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 // Retrieve the selected flight based on its ID
                 var selectedFlight = await _context.Flights.FindAsync(viewModel.Reservation.Flight.Id);
 
@@ -86,7 +86,7 @@ namespace ASPFlightManager.Controllers
                     // Handle the case where the selected flight is not found
                     ModelState.AddModelError(string.Empty, "Selected flight not found.");
                 }
-            }
+            //}
             // If ModelState is not valid or flight is not found, return the view with the viewModel to display validation errors
             viewModel.Flights = _context.Flights; // Populate flights again for the dropdown
             return View(viewModel);
@@ -178,8 +178,8 @@ namespace ASPFlightManager.Controllers
         }
         public void SendEmail(string email)
         {
-            string senderEmail = "SRRAirLine@gmail.com";
-            string senderPassword = "SRRAIRLINESEcretPassword";
+            string senderEmail = "srrairline@gmail.com";
+            string senderPassword = "SRRAIRLINESecretPassword";
 
             // Recipient's email address
             string recipientEmail = email;
@@ -190,10 +190,11 @@ namespace ASPFlightManager.Controllers
             mail.Body = "This is a test email sent from C#.";
 
             // Create a SmtpClient object
-            SmtpClient smtpClient = new SmtpClient("smtp.example.com");
+            SmtpClient smtpClient = new SmtpClient("smtp.office365.com");
             smtpClient.Port = 587; // Set the SMTP port (usually 587 for TLS/STARTTLS)
+            smtpClient.EnableSsl = true;
+            smtpClient.UseDefaultCredentials = false;
             smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
-            smtpClient.EnableSsl = true; // Enable SSL/TLS encryption
 
             try
             {

@@ -20,14 +20,12 @@ namespace Data.Models
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Email address is required.")]
-        [EmailAddress(ErrorMessage = "Invalid email address.")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Social Security Number (SSN) is required.")]
         public string SSN { get; set; }
 
         [Required(ErrorMessage = "Phone number is required.")]
-        [Phone(ErrorMessage = "Invalid phone number.")]
         public string PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "Nationality is required.")]
