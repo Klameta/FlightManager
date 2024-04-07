@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Data;
 using Data.Models;
+using System.Net.Mail;
+using System.Net;
 
 namespace ASPFlightManager.Controllers
 {
@@ -75,6 +77,8 @@ namespace ASPFlightManager.Controllers
 
                     _context.Add(viewModel.Reservation);
                     await _context.SaveChangesAsync();
+
+                    SendEmail(viewModel.Reservation.Email);
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -172,5 +176,36 @@ namespace ASPFlightManager.Controllers
         {
             return _context.Reservations.Any(e => e.Id == id);
         }
+        public void SendEmail(string email)
+        {
+            string senderEmail = "SRRAirLine@gmail.com";
+            string senderPassword = "SRRAIRLINESEcretPassword";
+
+            // Recipient's email address
+            string recipientEmail = email;
+
+            // Create a MailMessage object
+            MailMessage mail = new MailMessage(senderEmail, recipientEmail);
+            mail.Subject = "Test Email";
+            mail.Body = "This is a test email sent from C#.";
+
+            // Create a SmtpClient object
+            SmtpClient smtpClient = new SmtpClient("smtp.example.com");
+            smtpClient.Port = 587; // Set the SMTP port (usually 587 for TLS/STARTTLS)
+            smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
+            smtpClient.EnableSsl = true; // Enable SSL/TLS encryption
+
+            try
+            {
+                // Send the email
+                smtpClient.Send(mail);
+                Console.WriteLine("Email sent successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Failed to send email: " + ex.Message);
+            }
+        }
     }
+
 }

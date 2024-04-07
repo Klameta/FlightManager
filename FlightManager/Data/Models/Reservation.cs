@@ -24,7 +24,6 @@ namespace Data.Models
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Social Security Number (SSN) is required.")]
-        [RegularExpression(@"^\d{3}-\d{2}-\d{4}$", ErrorMessage = "SSN must be in the format XXX-XX-XXXX.")]
         public string SSN { get; set; }
 
         [Required(ErrorMessage = "Phone number is required.")]

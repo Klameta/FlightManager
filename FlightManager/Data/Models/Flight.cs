@@ -47,7 +47,7 @@ namespace Data.Models
         public string CapacityVIP { get; set; }
 
         [NotMapped]
-        public double FlightDuration => (DepartureDate-ArrivalDate).TotalHours;
+        public string FlightDuration => $"{(ArrivalDate - DepartureDate).TotalHours:F2} hours";
 
         public ICollection<Reservation> Reservations { get; set; }
 
