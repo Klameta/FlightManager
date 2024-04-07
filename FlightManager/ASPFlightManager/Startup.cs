@@ -109,6 +109,10 @@ namespace ASPFlightManager
                 NormalizedEmail = "admin@dev.local",
                 EmailConfirmed = true,
                 LockoutEnabled = false,
+                FirstName = "Admin",
+                LastName = "Admin",
+                SSN="0000000000",
+                Address="Admin str."    
             };
 
             string userPWD = "password";
