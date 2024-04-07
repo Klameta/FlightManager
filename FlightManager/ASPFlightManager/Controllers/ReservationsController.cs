@@ -60,16 +60,31 @@ namespace ASPFlightManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
-            [Bind("Id,FirstName,SecondName,LastName,Email,SSN,PhoneNumber,Nationality,TicketType")] Reservation reservation)
+        public async Task<IActionResult> Create(ReservationViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(reservation);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // Retrieve the selected flight based on its ID
+                var selectedFlight = await _context.Flights.FindAsync(viewModel.Reservation.Flight.Id);
+
+                if (selectedFlight != null)
+                {
+                    // Associate the selected flight with the reservation
+                    viewModel.Reservation.Flight = selectedFlight;
+
+                    _context.Add(viewModel.Reservation);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    // Handle the case where the selected flight is not found
+                    ModelState.AddModelError(string.Empty, "Selected flight not found.");
+                }
             }
-            return View(reservation);
+            // If ModelState is not valid or flight is not found, return the view with the viewModel to display validation errors
+            viewModel.Flights = _context.Flights; // Populate flights again for the dropdown
+            return View(viewModel);
         }
 
         // GET: Reservations/Edit/5
