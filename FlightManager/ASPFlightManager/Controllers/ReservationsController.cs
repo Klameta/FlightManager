@@ -77,8 +77,15 @@ namespace ASPFlightManager.Controllers
 
                 _context.Add(viewModel.Reservation);
                 await _context.SaveChangesAsync();
+                try
+                {
+                    SendEmail(viewModel.Reservation);
+                }
+                catch (Exception ex)
+                {
 
-                SendEmail(viewModel.Reservation);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             else
@@ -184,17 +191,6 @@ namespace ASPFlightManager.Controllers
                 EnableSsl = true
             };
             client.Send("mailtrap@demomailtrap.com", reservation.Email, "Reservation confirmation.", "Your reservation for flight number " + reservation.Flight.PlaneNumber + " was successful." + "\n");
-            /* SmtpClient client = new SmtpClient("live.smtp.mailtrap.io");
-             client.UseDefaultCredentials = false;
-             client.Credentials = new NetworkCredential("62fc31ef4c5f5e", "45944e2ba3e7f3");
-
-             MailMessage mailMessage = new MailMessage();
-             mailMessage.From = new MailAddress("mailtrap@demomailtrap.com");
-             mailMessage.To.Add(reservation.Email);
-             mailMessage.IsBodyHtml = false;
-             mailMessage.Body = "Your reservation for flight number " + reservation.Flight.PlaneNumber + " was successful." + "\n";
-             mailMessage.Subject = "Reservation confirmation.";
-             client.Send(mailMessage);*/
 
         }
     }

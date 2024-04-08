@@ -23,9 +23,11 @@ namespace Data.Models
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Social Security Number (SSN) is required.")]
+        [StringLength(10, ErrorMessage = "Social Security Number must be 10 characters.")]
         public string SSN { get; set; }
 
         [Required(ErrorMessage = "Phone number is required.")]
+        [StringLength(10, ErrorMessage = "Phone number must be 10 characters.")]
         public string PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "Nationality is required.")]
