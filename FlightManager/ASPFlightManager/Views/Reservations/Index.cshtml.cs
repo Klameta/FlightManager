@@ -24,14 +24,21 @@ namespace ASPFlightManager.Views.Reservations
 
         public IList<Reservation> Reservations { get; set; }
 
-        public async Task OnGetAsync(string sortOrder)
+        public async Task OnGetAsync(string sortOrder, string searchString)
         {
             // using System;
             NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             EmailSort = sortOrder == "Email" ? "email_desc" : "Email";
 
+            CurrentFilter = searchString;
+
             IQueryable<Reservation> reservationIQ = from s in _context.Reservations
                                              select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                reservationIQ = reservationIQ.Where(s => s.LastName.Contains(searchString.ToUpper()));
+            }
 
             switch (sortOrder)
             {
