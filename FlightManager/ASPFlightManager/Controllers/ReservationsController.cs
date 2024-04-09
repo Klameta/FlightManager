@@ -67,32 +67,25 @@ namespace ASPFlightManager.Controllers
         {
             //if (ModelState.IsValid)
             //{
-            // Retrieve the selected flight based on its ID
-            var selectedFlight = await _context.Flights.FindAsync(viewModel.Reservation.Flight.Id);
+                // Retrieve the selected flight based on its ID
+                var selectedFlight = await _context.Flights.FindAsync(viewModel.Reservation.Flight.Id);
 
-            if (selectedFlight != null)
-            {
-                // Associate the selected flight with the reservation
-                viewModel.Reservation.Flight = selectedFlight;
-
-                _context.Add(viewModel.Reservation);
-                await _context.SaveChangesAsync();
-                try
+                if (selectedFlight != null)
                 {
+                    // Associate the selected flight with the reservation
+                    viewModel.Reservation.Flight = selectedFlight;
+
+                    _context.Add(viewModel.Reservation);
+                    await _context.SaveChangesAsync();
+
                     SendEmail(viewModel.Reservation);
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (Exception ex)
+                else
                 {
-
+                    // Handle the case where the selected flight is not found
+                    ModelState.AddModelError(string.Empty, "Selected flight not found.");
                 }
-
-                return RedirectToAction(nameof(Index));
-            }
-            else
-            {
-                // Handle the case where the selected flight is not found
-                ModelState.AddModelError(string.Empty, "Selected flight not found.");
-            }
             //}
             // If ModelState is not valid or flight is not found, return the view with the viewModel to display validation errors
             viewModel.Flights = _context.Flights; // Populate flights again for the dropdown
@@ -185,14 +178,19 @@ namespace ASPFlightManager.Controllers
         }
         public void SendEmail(Reservation reservation)
         {
-            var client = new SmtpClient("live.smtp.mailtrap.io", 587)
-            {
-                Credentials = new NetworkCredential("api", "7b37ff8f9d43f66e5be6324a8fcf8a12"),
-                EnableSsl = true
-            };
-            client.Send("mailtrap@demomailtrap.com", reservation.Email, "Reservation confirmation.", "Your reservation for flight number " + reservation.Flight.PlaneNumber + " was successful." + "\n");
+            SmtpClient client = new SmtpClient("smtp.mailtrap.io");
+            client.UseDefaultCredentials = false;
+            client.Credentials = new NetworkCredential("62fc31ef4c5f5e", "45944e2ba3e7f3");
+
+            MailMessage mailMessage = new MailMessage();
+            mailMessage.From = new MailAddress("flightmanager@dev.local");
+            mailMessage.To.Add(reservation.Email);
+            mailMessage.IsBodyHtml = false;
+            mailMessage.Body = "Your reservation for flight number " + reservation.Flight.PlaneNumber + " was successful." + "\n";
+            mailMessage.Subject = "Reservation confirmation.";
+            client.Send(mailMessage);
 
         }
-    }
+        }
 
 }
