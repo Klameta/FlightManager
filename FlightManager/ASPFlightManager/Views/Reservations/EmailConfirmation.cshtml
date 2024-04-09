@@ -1,0 +1,53 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model Data.Models.Reservation
+
+@{
+    ViewData["Title"] = "EmailConfirmation";
+}
+
+<h1>Email Confirmation</h1>
+<p style="font-size: 0.8em">
+    This page is to be taken as an example of a real email. Това потвърждение се взима като заместител вместо пращане на реален имейл.
+</p>
+<h2>
+    <p>
+        Reservation confirmation. Your reservation for flight number @ViewData["PlaneNumber"] was successful!
+    </p>
+    <p>
+        The ticket you purchased is @ViewData["TicketType"].
+    </p>
+    <p>
+        Personal information:
+    </p>
+    <p>
+        You name is @ViewData["FirstName"] @ViewData["SecondName"] @ViewData["LastName"].
+    </p>
+    <p>
+        Your SSN is @ViewData["SSN"].
+    </p>
+    <p>
+        Your phone number is @ViewData["PhoneNumber"].
+    </p>
+    <p>
+        Your Nationality is @ViewData["Nationality"].
+    </p>
+    <img src="~/css/rainbowLetters.png" alt="Alternate Text" />
+    <br />
+
+</h2>
+
+
+
+<div style="margin-top: 2em">
+    <a asp-action="Index"
+       style="; list-style-type: none; border: solid; border-color: black; border-width: 1px; border-radius: 4px; padding: 5px; color: black">
+    Back to List</a>
+</div>
+
+
+

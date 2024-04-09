@@ -85,8 +85,15 @@ namespace ASPFlightManager.Controllers
                 {
 
                 }
-
-                return RedirectToAction(nameof(Index));
+                ViewData["FirstName"] = viewModel.Reservation.FirstName;
+                ViewData["SecondName"] = viewModel.Reservation.SecondName;
+                ViewData["LastName"] = viewModel.Reservation.LastName;
+                ViewData["SSN"] = viewModel.Reservation.SSN;
+                ViewData["Nationality"] = viewModel.Reservation.Nationality;
+                ViewData["PhoneNumber"] = viewModel.Reservation.PhoneNumber;
+                ViewData["TicketType"] = viewModel.Reservation.TicketType;
+                ViewData["PlaneNumber"] = viewModel.Reservation.Flight.PlaneNumber;
+                return View("EmailConfirmation");
             }
             else
             {
@@ -190,7 +197,33 @@ namespace ASPFlightManager.Controllers
                 Credentials = new NetworkCredential("api", "7b37ff8f9d43f66e5be6324a8fcf8a12"),
                 EnableSsl = true
             };
-            client.Send("mailtrap@demomailtrap.com", reservation.Email, "Reservation confirmation.", "Your reservation for flight number " + reservation.Flight.PlaneNumber + " was successful." + "\n");
+            client.Send("mailtrap@demomailtrap.com", reservation.Email, "Reservation confirmation.", $"Your reservation for flight number {reservation.Flight.PlaneNumber} was successful.\n" +
+                $"The ticket you purchased is :{reservation.TicketType}\n" +
+                $"Personal information:\n" +
+                $"You name is {reservation.FirstName} {reservation.SecondName} {reservation.LastName}\n" +
+                $"Your SSN is {reservation.SSN}\n" +
+                $"Your phone number is {reservation.PhoneNumber}\n" +
+                $"Your Nationality is {reservation.Nationality}\n" +
+                $"\n" +
+                @"
+_________  __   _____ __     _____________                             ________________       
+___  __/ \/ /   __  // /     ___  __/__  /____  ________     ___      ____(_)_  /___  /_      
+__  /  __  /    _  // /_     __  /_ __  /__  / / /_  __ \    __ | /| / /_  /_  __/_  __ \     
+_  /   _  /     /__  __/     _  __/ _  / _  /_/ /_  / / /    __ |/ |/ /_  / / /_ _  / / /     
+/_/    /_/        /_/        /_/    /_/  _\__, / /_/ /_/     ____/|__/ /_/  \__/ /_/ /_/      
+                                         /____/                                               
+
+  ██████   ██████  ██▀███      ▄▄▄       ██▓ ██▀███   ██▓     ██▓ ███▄    █ ▓█████   ██████ 
+▒██    ▒ ▒██    ▒ ▓██ ▒ ██▒   ▒████▄    ▓██▒▓██ ▒ ██▒▓██▒    ▓██▒ ██ ▀█   █ ▓█   ▀ ▒██    ▒ 
+░ ▓██▄   ░ ▓██▄   ▓██ ░▄█ ▒   ▒██  ▀█▄  ▒██▒▓██ ░▄█ ▒▒██░    ▒██▒▓██  ▀█ ██▒▒███   ░ ▓██▄   
+  ▒   ██▒  ▒   ██▒▒██▀▀█▄     ░██▄▄▄▄██ ░██░▒██▀▀█▄  ▒██░    ░██░▓██▒  ▐▌██▒▒▓█  ▄   ▒   ██▒
+▒██████▒▒▒██████▒▒░██▓ ▒██▒    ▓█   ▓██▒░██░░██▓ ▒██▒░██████▒░██░▒██░   ▓██░░▒████▒▒██████▒▒
+▒ ▒▓▒ ▒ ░▒ ▒▓▒ ▒ ░░ ▒▓ ░▒▓░    ▒▒   ▓▒█░░▓  ░ ▒▓ ░▒▓░░ ▒░▓  ░░▓  ░ ▒░   ▒ ▒ ░░ ▒░ ░▒ ▒▓▒ ▒ ░
+░ ░▒  ░ ░░ ░▒  ░ ░  ░▒ ░ ▒░     ▒   ▒▒ ░ ▒ ░  ░▒ ░ ▒░░ ░ ▒  ░ ▒ ░░ ░░   ░ ▒░ ░ ░  ░░ ░▒  ░ ░
+░  ░  ░  ░  ░  ░    ░░   ░      ░   ▒    ▒ ░  ░░   ░   ░ ░    ▒ ░   ░   ░ ░    ░   ░  ░  ░  
+      ░        ░     ░              ░  ░ ░     ░         ░  ░ ░           ░    ░  ░      ░  
+                                                                                            
+");
 
         }
     }
