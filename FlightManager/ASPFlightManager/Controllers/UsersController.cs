@@ -68,14 +68,18 @@ namespace ASPFlightManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,SecondName,LastName,Email,SSN,PhoneNumber,Nationality,TicketType,PasswordHash")] User user)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,SecondName,LastName,Email,SSN,PhoneNumber,Address,Nationality,TicketType,PasswordHash")] User user)
         {
             User newUser = new User
             {
                 UserName = user.Email,
                 Email = user.Email,
                 LockoutEnabled = false,
-                EmailConfirmed = true
+                EmailConfirmed = true,
+                Address = user.Address,
+                FirstName = user.FirstName,
+                LastName =  user.LastName,
+                SSN = user.SSN
             };
             if (ModelState.IsValid)
             {
