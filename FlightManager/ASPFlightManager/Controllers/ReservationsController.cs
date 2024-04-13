@@ -9,7 +9,6 @@ using Data;
 using Data.Models;
 using System.Net.Mail;
 using System.Net;
-using System.Media;
 
 namespace ASPFlightManager.Controllers
 {
@@ -73,7 +72,6 @@ namespace ASPFlightManager.Controllers
 
             if (selectedFlight != null)
             {
-
                 // Associate the selected flight with the reservation
                 viewModel.Reservation.Flight = selectedFlight;
                 var flightReservations = _context.Flights.Include(f => f.Reservations).FirstOrDefault(f => f.Id == viewModel.Reservation.Flight.Id);
