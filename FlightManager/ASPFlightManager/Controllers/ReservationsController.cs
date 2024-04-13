@@ -76,9 +76,9 @@ namespace ASPFlightManager.Controllers
 
                 // Associate the selected flight with the reservation
                 viewModel.Reservation.Flight = selectedFlight;
-                var flightReservations = selectedFlight;
-                var reservationFlightsCount = selectedFlight.Reservations;
-                if (reservationFlightsCount +1 <= int.Parse(selectedFlight.Capacity))
+                var flightReservations = _context.Flights.Include(f => f.Reservations).FirstOrDefault(f => f.Id == viewModel.Reservation.Flight.Id);
+                var reservationFlightsCount = selectedFlight.Reservations.Count;
+                if (reservationFlightsCount +1 <= selectedFlight.Capacity)
                 {
                     _context.Add(viewModel.Reservation);
                     await _context.SaveChangesAsync();
