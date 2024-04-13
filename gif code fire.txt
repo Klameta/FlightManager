@@ -1,4 +1,0 @@
-<div class="text-center" , style="display:flex; width:100%; justify-content:center; flex-direction:column">
-        <h3>Employee quote of the day :</h3>
-        <img src="~/css/cooltext455480011249154.gif" alt="Alternate Text" style="height:9em; width:73em" />
-    </div>
