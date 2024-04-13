@@ -77,8 +77,12 @@ namespace ASPFlightManager.Controllers
                 // Associate the selected flight with the reservation
                 viewModel.Reservation.Flight = selectedFlight;
                 var flightReservations = _context.Flights.Include(f => f.Reservations).FirstOrDefault(f => f.Id == viewModel.Reservation.Flight.Id);
+
+                var flightsReservationVip = flightReservations.Reservations.Where(r => r.TicketType == "VIP").Count();
                 var reservationFlightsCount = selectedFlight.Reservations.Count;
-                if (reservationFlightsCount +1 <= selectedFlight.Capacity)
+                
+                if ((reservationFlightsCount + 1 <= selectedFlight.Capacity)
+                    || (viewModel.Reservation.TicketType == "VIP" && flightsReservationVip + 1 <= selectedFlight.CapacityVIP))
                 {
                     _context.Add(viewModel.Reservation);
                     await _context.SaveChangesAsync();
@@ -106,7 +110,7 @@ namespace ASPFlightManager.Controllers
                     SystemSounds.Exclamation.Play();
                 }
 
-                
+
             }
             else
             {
