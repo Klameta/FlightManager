@@ -9,7 +9,6 @@ using Data;
 using Data.Models;
 using System.Net.Mail;
 using System.Net;
-using System.Media;
 
 namespace ASPFlightManager.Controllers
 {
@@ -73,40 +72,28 @@ namespace ASPFlightManager.Controllers
 
             if (selectedFlight != null)
             {
-
                 // Associate the selected flight with the reservation
                 viewModel.Reservation.Flight = selectedFlight;
-                var flightReservations = selectedFlight;
-                var reservationFlightsCount = selectedFlight.Reservations;
-                if (reservationFlightsCount +1 <= int.Parse(selectedFlight.Capacity))
+
+                _context.Add(viewModel.Reservation);
+                await _context.SaveChangesAsync();
+                try
                 {
-                    _context.Add(viewModel.Reservation);
-                    await _context.SaveChangesAsync();
-                    try
-                    {
-                        SendEmail(viewModel.Reservation);
-                    }
-                    catch (Exception ex)
-                    {
-
-                    }
-
-                    ViewData["FirstName"] = viewModel.Reservation.FirstName;
-                    ViewData["SecondName"] = viewModel.Reservation.SecondName;
-                    ViewData["LastName"] = viewModel.Reservation.LastName;
-                    ViewData["SSN"] = viewModel.Reservation.SSN;
-                    ViewData["Nationality"] = viewModel.Reservation.Nationality;
-                    ViewData["PhoneNumber"] = viewModel.Reservation.PhoneNumber;
-                    ViewData["TicketType"] = viewModel.Reservation.TicketType;
-                    ViewData["PlaneNumber"] = viewModel.Reservation.Flight.PlaneNumber;
-                    return View("EmailConfirmation");
+                    SendEmail(viewModel.Reservation);
                 }
-                else
+                catch (Exception ex)
                 {
-                    SystemSounds.Exclamation.Play();
-                }
 
-                
+                }
+                ViewData["FirstName"] = viewModel.Reservation.FirstName;
+                ViewData["SecondName"] = viewModel.Reservation.SecondName;
+                ViewData["LastName"] = viewModel.Reservation.LastName;
+                ViewData["SSN"] = viewModel.Reservation.SSN;
+                ViewData["Nationality"] = viewModel.Reservation.Nationality;
+                ViewData["PhoneNumber"] = viewModel.Reservation.PhoneNumber;
+                ViewData["TicketType"] = viewModel.Reservation.TicketType;
+                ViewData["PlaneNumber"] = viewModel.Reservation.Flight.PlaneNumber;
+                return View("EmailConfirmation");
             }
             else
             {
