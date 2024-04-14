@@ -76,7 +76,7 @@ namespace ASPFlightManager.Controllers
                 viewModel.Reservation.Flight = selectedFlight;
                 var flightReservations = _context.Flights.Include(f => f.Reservations).FirstOrDefault(f => f.Id == viewModel.Reservation.Flight.Id);
                 var reservationFlightsCount = selectedFlight.Reservations.Count;
-                if (reservationFlightsCount +1 <= selectedFlight.Capacity)
+                if (reservationFlightsCount + 1 <= selectedFlight.Capacity)
                 {
                     _context.Add(viewModel.Reservation);
                     await _context.SaveChangesAsync();
@@ -87,6 +87,7 @@ namespace ASPFlightManager.Controllers
                     catch (Exception ex)
                     {
 
+                    }
                 }
                 ViewData["FirstName"] = viewModel.Reservation.FirstName;
                 ViewData["SecondName"] = viewModel.Reservation.SecondName;
