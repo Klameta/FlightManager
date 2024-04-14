@@ -40,11 +40,11 @@ namespace Data.Models
 
         [Required(ErrorMessage = "Capacity field is required.")]
         [RegularExpression(@"^\d+$", ErrorMessage = "Capacity must be a numeric value.")]
-        public string Capacity { get; set; }
+        public int Capacity { get; set; }
 
         [Required(ErrorMessage = "Capacity for VIP passengers is required.")]
         [RegularExpression(@"^\d+$", ErrorMessage = "Capacity for VIP passengers must be a numeric value.")]
-        public string CapacityVIP { get; set; }
+        public int CapacityVIP { get; set; }
 
         [NotMapped]
         public string FlightDuration => $"{(ArrivalDate - DepartureDate).TotalHours:F2} hours";
