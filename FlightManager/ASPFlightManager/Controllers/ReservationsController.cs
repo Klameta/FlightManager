@@ -75,8 +75,12 @@ namespace ASPFlightManager.Controllers
                 // Associate the selected flight with the reservation
                 viewModel.Reservation.Flight = selectedFlight;
                 var flightReservations = _context.Flights.Include(f => f.Reservations).FirstOrDefault(f => f.Id == viewModel.Reservation.Flight.Id);
+
+                var flightsReservationVip = flightReservations.Reservations.Where(r => r.TicketType == "VIP").Count();
                 var reservationFlightsCount = selectedFlight.Reservations.Count;
-                if (reservationFlightsCount + 1 <= selectedFlight.Capacity)
+                
+                if ((reservationFlightsCount + 1 <= selectedFlight.Capacity)
+                    || (viewModel.Reservation.TicketType == "VIP" && flightsReservationVip + 1 <= selectedFlight.CapacityVIP))
                 {
                     _context.Add(viewModel.Reservation);
                     await _context.SaveChangesAsync();
@@ -88,16 +92,23 @@ namespace ASPFlightManager.Controllers
                     {
 
                     }
+
+                    ViewData["FirstName"] = viewModel.Reservation.FirstName;
+                    ViewData["SecondName"] = viewModel.Reservation.SecondName;
+                    ViewData["LastName"] = viewModel.Reservation.LastName;
+                    ViewData["SSN"] = viewModel.Reservation.SSN;
+                    ViewData["Nationality"] = viewModel.Reservation.Nationality;
+                    ViewData["PhoneNumber"] = viewModel.Reservation.PhoneNumber;
+                    ViewData["TicketType"] = viewModel.Reservation.TicketType;
+                    ViewData["PlaneNumber"] = viewModel.Reservation.Flight.PlaneNumber;
+                    return View("EmailConfirmation");
                 }
-                ViewData["FirstName"] = viewModel.Reservation.FirstName;
-                ViewData["SecondName"] = viewModel.Reservation.SecondName;
-                ViewData["LastName"] = viewModel.Reservation.LastName;
-                ViewData["SSN"] = viewModel.Reservation.SSN;
-                ViewData["Nationality"] = viewModel.Reservation.Nationality;
-                ViewData["PhoneNumber"] = viewModel.Reservation.PhoneNumber;
-                ViewData["TicketType"] = viewModel.Reservation.TicketType;
-                ViewData["PlaneNumber"] = viewModel.Reservation.Flight.PlaneNumber;
-                return View("EmailConfirmation");
+                else
+                {
+                    SystemSounds.Exclamation.Play();
+                }
+
+
             }
             else
             {
